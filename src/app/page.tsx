@@ -37,10 +37,6 @@ declare global {
 
 // Add this helper function at the top of your component
 const safeGtag = (...args: any[]) => {
-  if (process.env.NODE_ENV !== 'production') {
-    return; // Don't run in development
-  }
-  
   try {
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag(...args);

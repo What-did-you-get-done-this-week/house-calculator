@@ -1,11 +1,11 @@
+interface GtagParams {
+  [key: string]: string | number | boolean;
+}
+
 declare global {
   interface Window {
-    gtag: (
-      command: string,
-      action: string,
-      params: Record<string, unknown>
-    ) => void;
-    dataLayer: unknown[];
+    gtag: (command: string, action: string, params: GtagParams) => void;
+    dataLayer: Array<unknown>;
   }
 }
 
