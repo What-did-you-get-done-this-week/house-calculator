@@ -1,5 +1,6 @@
+"use client"
+
 // House Calculator - Last updated: March 2024
-// Add your existing imports and code below
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import {
