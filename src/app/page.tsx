@@ -1,6 +1,6 @@
-'use client'
-
-import { useState, useCallback, useEffect, useRef } from 'react'
+// House Calculator - Last updated: March 2024
+// Add your existing imports and code below
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -37,10 +37,10 @@ declare global {
 }
 
 // Add this helper function at the top of your component
-const safeGtag = (...args: any[]) => {
+const safeGtag = (...args: unknown[]) => {
   try {
     if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag(...args);
+      window.gtag(...(args as [string, string, Record<string, unknown>]));
     }
   } catch (error) {
     console.warn('Google Analytics event failed:', error);
