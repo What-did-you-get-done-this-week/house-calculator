@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/dialog"
 import { Slider } from "@/components/ui/slider"
 import Script from 'next/script'
+import { InfoIcon } from 'lucide-react'
 
 // ... existing imports ...
 
