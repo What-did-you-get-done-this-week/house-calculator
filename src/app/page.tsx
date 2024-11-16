@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-// House Calculator - Last updated: March 2024
+// House Calculator - Last updated: March 2024 - v2.0
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import {
