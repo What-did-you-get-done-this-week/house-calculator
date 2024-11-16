@@ -1,6 +1,8 @@
 'use client';
+
 // House Calculator - Last updated: March 2024 - v2.0
-import { useState, useEffect, useCallback, useRef } from 'react'import { Button } from "@/components/ui/button"
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,25 +10,25 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Slider } from "@/components/ui/slider"
-import Script from 'next/script'
-import { InfoIcon } from 'lucide-react'
+} from "@/components/ui/dialog";
+import { Slider } from "@/components/ui/slider";
+import Script from 'next/script';
+import { InfoIcon } from 'lucide-react';
 
 // ... existing imports ...
 
