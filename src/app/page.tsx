@@ -1,8 +1,6 @@
 'use client';
-
 // House Calculator - Last updated: March 2024 - v2.0
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { Button } from "@/components/ui/button"
+import { useState, useEffect, useCallback, useRef } from 'react'import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -865,3 +863,4 @@ return (
   </div>
 )
 }
+
