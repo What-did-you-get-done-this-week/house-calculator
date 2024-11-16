@@ -14,14 +14,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { InfoIcon } from "lucide-react"
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -78,7 +70,6 @@ const [formData, setFormData] = useState({
   landRegistryFee: '500',
 })
 const [sliderValue, setSliderValue] = useState<number[]>([0])
-const [calculatedMonths, setCalculatedMonths] = useState(0)
 const resultRef = useRef<HTMLDivElement>(null)
 const [language, setLanguage] = useState<'en' | 'es'>('en')
 const [currency, setCurrency] = useState<'$' | '€'>('$')
@@ -441,7 +432,6 @@ const calculateDownPaymentTime = useCallback(() => {
     }
 
     setAnnualResults(annualResultsData)
-    setCalculatedMonths(months)
     setSliderValue([months])
 
     if (months >= maxMonths) {
@@ -473,7 +463,7 @@ const calculateDownPaymentTime = useCallback(() => {
       resultRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }, 100)
-}, [formData, language, t, currency])
+}, [formData, language, t, currency, updateResult])
 
 const updateResult = (months: number, currentHousePrice: number, downPaymentAmount: number, commissionAmount: number, propertyTaxAmount: number, notaryFee: number, appraisalFee: number, mortgageBroker: number, mortgageAdvisor: number, landRegistryFee: number, totalNeeded: number, calculatedMonthlySavings: number) => {
   const yearsNeeded = Math.floor(months / 12)
