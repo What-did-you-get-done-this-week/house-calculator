@@ -48,7 +48,7 @@ export default function Component() {
 const [result, setResult] = useState<{ type: 'error' | 'success'; message: string } | null>(null)
 const [annualResults, setAnnualResults] = useState<{ year: number; savings: number; housePrice: number }[]>([])
 const [formData, setFormData] = useState({
-  housePrice: '',
+  targetHousePrice: '',
   currentSavings: '0',
   monthlySavings: '',
   extraPaychecks: '0',
@@ -241,7 +241,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   let formattedValue = value
 
   if ([
-    'housePrice', 
+    'targetHousePrice', 
     'currentSavings', 
     'monthlySavings', 
     'extraPaychecks', 
@@ -275,7 +275,7 @@ const parseFormattedNumber = (value: string) => {
 
 const calculateDownPaymentTime = useCallback(() => {
   const missingFields = []
-  if (!formData.housePrice) missingFields.push(t.housePrice)
+  if (!formData.targetHousePrice) missingFields.push(t.targetHousePrice)
   if (!formData.monthlySavings) missingFields.push(t.monthlySavings)
 
   if (missingFields.length > 0) {
@@ -284,7 +284,7 @@ const calculateDownPaymentTime = useCallback(() => {
     const currentSavings = parseFormattedNumber(formData.currentSavings)
     const monthlySavings = parseFormattedNumber(formData.monthlySavings)
     const extraPaychecks = parseFormattedNumber(formData.extraPaychecks)
-    const initialHousePrice = parseFormattedNumber(formData.housePrice)
+    const initialHousePrice = parseFormattedNumber(formData.targetHousePrice)
     const downPaymentPercentage = parseFloat(formData.downPaymentPercentage) || 0
     const propertyTaxPercentage = parseFloat(formData.propertyTax) || 5
     const housePriceIncrease = parseFloat(formData.housePriceIncrease) || 5
@@ -410,7 +410,7 @@ ${t.monthlySavingsResult}: ${currency}${formatNumber(calculatedMonthlySavings.to
   const monthlyHousePriceIncrease = Math.pow(1 + housePriceIncrease / 100, 1 / 12) - 1
 
   let totalSavings = parseFormattedNumber(formData.currentSavings)
-  let housePrice = parseFormattedNumber(formData.housePrice)
+  let housePrice = parseFormattedNumber(formData.targetHousePrice)
   const annualResultsData: { year: number; savings: number; housePrice: number }[] = []
 
   for (let i = 1; i <= months; i++) {
@@ -437,7 +437,7 @@ const handleSliderChange = (value: number[]) => {
   
   const currentSavings = parseFormattedNumber(formData.currentSavings)
   const extraPaychecks = parseFormattedNumber(formData.extraPaychecks)
-  const initialHousePrice = parseFormattedNumber(formData.housePrice)
+  const initialHousePrice = parseFormattedNumber(formData.targetHousePrice)
   const downPaymentPercentage = parseFloat(formData.downPaymentPercentage) || 0
   const propertyTaxPercentage = parseFloat(formData.propertyTax) || 5
   const housePriceIncrease = parseFloat(formData.housePriceIncrease) || 5
@@ -573,15 +573,6 @@ useEffect(() => {
   }
 }, []);
 
-const formatCurrency = useCallback((value: number) => {
-  return new Intl.NumberFormat(language, {
-    style: 'currency',
-    currency: currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
-}, [currency, language]);
-
 return (
   <div className="space-y-8 relative min-h-screen pb-4 px-4">
     {process.env.NODE_ENV === 'production' && (
@@ -625,7 +616,7 @@ return (
         <CardContent className="p-6 space-y-6">
           <form className="space-y-4">
             {[
-              { id: "housePrice", label: t.housePrice, placeholder: "200,000", description: t.housePriceDescription, required: true },
+              { id: "targetHousePrice", label: t.targetHousePrice, placeholder: "200,000", description: t.targetHousePriceDescription, required: true },
               { id: "monthlySavings", label: t.monthlySavings, placeholder: "1,000", description: t.monthlySavingsDescription, required: true },
               { id: "currentSavings", label: t.currentSavings, placeholder: "10,000", description: t.currentSavingsDescription },
               { id: "extraPaychecks", label: t.extraPaychecks, placeholder: "5,000", description: t.extraPaychecksDescription },
@@ -769,7 +760,7 @@ return (
       <Button 
         onClick={() => {
           safeGtag('event', 'form_submit', {
-            'house_price': formData.housePrice,
+            'house_price': formData.targetHousePrice,
             'monthly_savings': formData.monthlySavings
           });
           calculateDownPaymentTime();
