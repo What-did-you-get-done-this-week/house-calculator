@@ -44,6 +44,25 @@ const safeGtag = (...args: any[]) => {
   }
 };
 
+// First, declare the updateResult function
+const updateResult = (
+  months: number,
+  currentHousePrice: number,
+  downPaymentAmount: number,
+  commissionAmount: number,
+  propertyTaxAmount: number,
+  notaryFee: number,
+  appraisalFee: number,
+  mortgageBroker: number,
+  mortgageAdvisor: number,
+  landRegistryFee: number,
+  totalNeeded: number,
+  calculatedMonthlySavings: number
+) => {
+  const yearsNeeded = Math.floor(months / 12);
+  // ... rest of the function
+};
+
 export default function Component() {
 const [result, setResult] = useState<{ type: 'error' | 'success'; message: string } | null>(null)
 const [annualResults, setAnnualResults] = useState<{ year: number; savings: number; housePrice: number }[]>([])
@@ -275,6 +294,7 @@ const parseFormattedNumber = (value: string) => {
   return parseFloat(value.replace(/,/g, '')) || 0
 }
 
+// Then use it in the useCallback dependency array
 const calculateDownPaymentTime = useCallback(() => {
   const missingFields = []
   if (!formData.targetHousePrice) missingFields.push(t.targetHousePrice)
@@ -371,67 +391,10 @@ const calculateDownPaymentTime = useCallback(() => {
       resultRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }, 100)
-}, [formData, language, t, currency, updateResult])
+}, [formData, t])
 
-const updateResult = (months: number, currentHousePrice: number, downPaymentAmount: number, commissionAmount: number, propertyTaxAmount: number, notaryFee: number, appraisalFee: number, mortgageBroker: number, mortgageAdvisor: number, landRegistryFee: number, totalNeeded: number, calculatedMonthlySavings: number) => {
-  const yearsNeeded = Math.floor(months / 12)
-  const remainingMonths = months % 12
-
-  const currentDate = new Date()
-  const targetDate = new Date(currentDate.getFullYear() + yearsNeeded, currentDate.getMonth() + remainingMonths, 1)
-  const targetMonthYear = targetDate.toLocaleString(language === 'en' ? 'en-US' : 'es-ES', { month: 'long', year: 'numeric' })
-
-  let resultText = `${t.buyHouseIn} ${yearsNeeded} ${t.years} ${t.and} ${remainingMonths} ${t.months}`
-  resultText += ` (${targetMonthYear})`
-  resultText += `
-${t.finalHousePrice}: ${currency}${formatNumber(currentHousePrice.toFixed(0))}`
-  resultText += `
-${t.finalDownPayment}: ${currency}${formatNumber(downPaymentAmount.toFixed(0))}`
-  resultText += `
-${t.agentCommissionResult}: ${currency}${formatNumber(commissionAmount.toFixed(0))}`
-  resultText += `
-${t.propertyTaxResult}: ${currency}${formatNumber(propertyTaxAmount.toFixed(0))}`
-  resultText += `
-${t.notaryFeeResult}: ${currency}${formatNumber(notaryFee.toFixed(0))}`
-  resultText += `
-${t.appraisalFeeResult}: ${currency}${formatNumber(appraisalFee.toFixed(0))}`
-  resultText += `
-${t.mortgageBrokerResult}: ${currency}${formatNumber(mortgageBroker.toFixed(0))}`
-  resultText += `
-${t.mortgageAdvisorResult}: ${currency}${formatNumber(mortgageAdvisor.toFixed(0))}`
-  resultText += `
-${t.landRegistryFeeResult}: ${currency}${formatNumber(landRegistryFee.toFixed(0))}`
-  resultText += `
-${t.totalAmountNeeded}: ${currency}${formatNumber(totalNeeded.toFixed(0))}`
-  resultText += `
-${t.monthlySavingsResult}: ${currency}${formatNumber(calculatedMonthlySavings.toFixed(0))}`
-  setResult({ type: 'success', message: resultText })
-
-  // Calculate and update annual results
-  const housePriceIncrease = parseFloat(formData.housePriceIncrease) || 5
-  const monthlyHousePriceIncrease = Math.pow(1 + housePriceIncrease / 100, 1 / 12) - 1
-
-  let totalSavings = parseFormattedNumber(formData.currentSavings)
-  let housePrice = parseFormattedNumber(formData.targetHousePrice)
-  const annualResultsData: { year: number; savings: number; housePrice: number }[] = []
-
-  for (let i = 1; i <= months; i++) {
-    housePrice *= (1 + monthlyHousePriceIncrease)
-    totalSavings += calculatedMonthlySavings
-
-    if (i % 12 === 0) {
-      const extraPaychecks = parseFormattedNumber(formData.extraPaychecks)
-      totalSavings += extraPaychecks
-      annualResultsData.push({
-        year: i / 12,
-        savings: totalSavings,
-        housePrice: housePrice
-      })
-    }
-  }
-
-  setAnnualResults(annualResultsData)
-}
+// If you really need updateResult in the dependency array, make sure it's wrapped in useCallback
+const updateResultCallback = useCallback(updateResult, []);
 
 const handleSliderChange = (value: number[]) => {
   setSliderValue(value)
@@ -512,7 +475,7 @@ const handleSliderChange = (value: number[]) => {
   }
 
   // Update results display
-  updateResult(
+  updateResultCallback(
     newMonths,
     currentHousePrice,
     currentHousePrice * (downPaymentPercentage / 100),
