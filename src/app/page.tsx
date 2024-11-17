@@ -661,6 +661,15 @@ useEffect(() => {
   }
 }, []);
 
+const formatCurrency = useCallback((value: number) => {
+  return new Intl.NumberFormat(language, {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+}, []);
+
 return (
   <div className="space-y-8 relative min-h-screen pb-4 px-4">
     {process.env.NODE_ENV === 'production' && (
