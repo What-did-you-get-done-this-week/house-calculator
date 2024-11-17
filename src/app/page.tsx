@@ -38,13 +38,9 @@ declare global {
 }
 
 // Add this helper function at the top of your component
-const safeGtag = (...args: unknown[]) => {
-  try {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag(...(args as [string, string, Record<string, unknown>]));
-    }
-  } catch (error) {
-    console.warn('Google Analytics event failed:', error);
+const safeGtag = (...args: any[]) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag(...args);
   }
 };
 
