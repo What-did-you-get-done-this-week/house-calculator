@@ -210,7 +210,8 @@ const translations = {
     totalSavings: "Total Savings",
     feedbackButton: "Improvements & Bugs",
     mandatoryFieldsError: "Please fill in the following mandatory fields: ",
-    buyHouseIn: "You can buy a house in"
+    buyHouseIn: "You can buy a house in",
+    cannotAfford: "With your current savings rate, you cannot afford this house within 30 years"
   },
   es: {
     title: "Calculadora de Vivienda",
@@ -225,7 +226,8 @@ const translations = {
     totalSavings: "Ahorros totales",
     feedbackButton: "Mejoras y Errores",
     mandatoryFieldsError: "Por favor, rellena los siguientes campos obligatorios: ",
-    buyHouseIn: "Podrás comprar una casa en"
+    buyHouseIn: "Podrás comprar una casa en",
+    cannotAfford: "Con tu tasa de ahorro actual, no podrás permitirte esta casa en 30 años"
   }
 };
 
