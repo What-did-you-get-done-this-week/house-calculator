@@ -60,10 +60,8 @@ const updateResult = (
   calculatedMonthlySavings: number
 ) => {
   const yearsNeeded = Math.floor(months / 12);
-  
-  // Use the variables to avoid unused warnings
-  setResult({
-    type: 'success',
+  return {
+    type: 'success' as const,
     message: `${t.buyHouseIn} ${yearsNeeded} ${yearsNeeded === 1 ? t.year : t.years}`,
     details: {
       currentHousePrice,
@@ -79,16 +77,8 @@ const updateResult = (
       calculatedMonthlySavings,
       yearsNeeded
     }
-  });
+  };
 };
-
-// Add this type for your form data
-interface FormData {
-  [key: string]: string | number;
-  targetHousePrice: number;
-  monthlySavings: number;
-  // ... other fields
-}
 
 export default function Component() {
 const [result, setResult] = useState<{ type: 'error' | 'success'; message: string } | null>(null)
@@ -398,7 +388,7 @@ const calculateDownPaymentTime = useCallback(() => {
         'monthly_savings': monthlySavings
       });
     } else {
-      updateResult(months, currentHousePrice, 
+      const result = updateResult(months, currentHousePrice, 
         (currentHousePrice * downPaymentPercentage) / 100,
         formData.isAgentCommissionPercentage ? (currentHousePrice * agentCommission) / 100 : agentCommission,
         (currentHousePrice * propertyTaxPercentage) / 100,
@@ -406,6 +396,7 @@ const calculateDownPaymentTime = useCallback(() => {
         calculateTotalNeeded(currentHousePrice),
         monthlySavings
       );
+      setResult(result);
       safeGtag('event', 'calculation_complete', {
         'years_needed': Math.floor(months / 12),
         'months_needed': months % 12,
