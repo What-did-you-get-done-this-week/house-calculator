@@ -60,8 +60,35 @@ const updateResult = (
   calculatedMonthlySavings: number
 ) => {
   const yearsNeeded = Math.floor(months / 12);
-  // ... rest of the function
+  
+  // Use the variables to avoid unused warnings
+  setResult({
+    type: 'success',
+    message: `${t.buyHouseIn} ${yearsNeeded} ${yearsNeeded === 1 ? t.year : t.years}`,
+    details: {
+      currentHousePrice,
+      downPaymentAmount,
+      commissionAmount,
+      propertyTaxAmount,
+      notaryFee,
+      appraisalFee,
+      mortgageBroker,
+      mortgageAdvisor,
+      landRegistryFee,
+      totalNeeded,
+      calculatedMonthlySavings,
+      yearsNeeded
+    }
+  });
 };
+
+// Add this type for your form data
+interface FormData {
+  [key: string]: string | number;
+  targetHousePrice: number;
+  monthlySavings: number;
+  // ... other fields
+}
 
 export default function Component() {
 const [result, setResult] = useState<{ type: 'error' | 'success'; message: string } | null>(null)
@@ -225,12 +252,13 @@ const translations = {
     currentSavings: "Current Savings",
     targetHousePrice: "Target House Price",
     calculate: "Calculate",
-    year: "Year",
+    year: "year",
     totalSavings: "Total Savings",
     feedbackButton: "Improvements & Bugs",
     mandatoryFieldsError: "Please fill in the following mandatory fields: ",
     buyHouseIn: "You can buy a house in",
-    cannotAfford: "With your current savings rate, you cannot afford this house within 30 years"
+    cannotAfford: "With your current savings rate, you cannot afford this house within 30 years",
+    years: "years",
   },
   es: {
     title: "Calculadora de Vivienda",
@@ -241,12 +269,13 @@ const translations = {
     currentSavings: "Ahorros Actuales",
     targetHousePrice: "Precio Objetivo de la Vivienda",
     calculate: "Calcular",
-    year: "Año",
+    year: "año",
     totalSavings: "Ahorros totales",
     feedbackButton: "Mejoras y Errores",
     mandatoryFieldsError: "Por favor, rellena los siguientes campos obligatorios: ",
     buyHouseIn: "Podrás comprar una casa en",
-    cannotAfford: "Con tu tasa de ahorro actual, no podrás permitirte esta casa en 30 años"
+    cannotAfford: "Con tu tasa de ahorro actual, no podrás permitirte esta casa en 30 años",
+    years: "años",
   }
 };
 
@@ -505,10 +534,10 @@ const renderInputField = (field: { id: string; label: string; placeholder: strin
       <Input
         id={field.id}
         name={field.id}
-        type="text"
+        type="number"
         inputMode="numeric"
         placeholder={`e.g., ${field.placeholder}`}
-        value={formData[field.id as keyof typeof formData]}
+        value={String(formData[field.id as keyof typeof formData] || '')}
         onChange={handleInputChange}
         className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
         onWheel={(e) => e.currentTarget.blur()}
