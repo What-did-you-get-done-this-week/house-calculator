@@ -62,7 +62,7 @@ const updateResult = (
   const yearsNeeded = Math.floor(months / 12);
   return {
     type: 'success' as const,
-    message: `${t.buyHouseIn} ${yearsNeeded} ${yearsNeeded === 1 ? t.year : t.years}`,
+    message: `You can buy a house in ${yearsNeeded} ${yearsNeeded === 1 ? 'year' : 'years'}`,
     details: {
       currentHousePrice,
       downPaymentAmount,
@@ -75,7 +75,6 @@ const updateResult = (
       landRegistryFee,
       totalNeeded,
       calculatedMonthlySavings,
-      yearsNeeded
     }
   };
 };
