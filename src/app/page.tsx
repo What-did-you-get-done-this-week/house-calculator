@@ -80,10 +80,15 @@ const updateResult = (
   };
 };
 
+// Update the formData type to be more specific
+interface FormData {
+  [key: string]: string; // or number if you need numeric values
+}
+
 export default function Component() {
 const [result, setResult] = useState<{ type: 'error' | 'success'; message: string } | null>(null)
 const [annualResults, setAnnualResults] = useState<{ year: number; savings: number; housePrice: number }[]>([])
-const [formData, setFormData] = useState({
+const [formData, setFormData] = useState<FormData>({
   targetHousePrice: '',
   currentSavings: '0',
   monthlySavings: '',
@@ -528,7 +533,7 @@ const renderInputField = (field: { id: string; label: string; placeholder: strin
         type="number"
         inputMode="numeric"
         placeholder={`e.g., ${field.placeholder}`}
-        value={String(formData[field.id as keyof typeof formData] || '')}
+        value={formData[field.id as keyof typeof formData] || ''}
         onChange={handleInputChange}
         className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
         onWheel={(e) => e.currentTarget.blur()}
